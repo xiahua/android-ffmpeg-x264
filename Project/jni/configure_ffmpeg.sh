@@ -17,15 +17,39 @@ if [[ $DEBUG == 1 ]]; then
   DEBUG_FLAG="--disable-stripping"
 fi
 
+if [[ $ARM_ARCH == "armv5te" ]]; then
+	target="--arch=arm5te \
+		--enable-armv5te \
+		--disable-neon "
+
+elif [[ $ARM_ARCH == "armv6" ]]; then
+	target="--arch=armv6 \
+		--disable-neon "
+
+elif [[ $ARM_ARCH == "armv7" ]]; then
+	target="--arch=armv7 \
+		--disable-neon "
+else #armv7-neon
+	target="--arch=armv7a \
+		--cpu=cortex-a8 \
+		--enable-neon"
+fi
+
+if [[ $ARM_VFP == "vfp" ]]; then
+	target=$target" --enable-armvfp"
+else
+	target=$target" --disable-armvfp"
+fi
+
+echo "target: "$target
+
 pushd ffmpeg
 
 ./configure $DEBUG_FLAG --enable-cross-compile \
---arch=arm5te \
---enable-armv5te \
+$target \
 --target-os=linux \
 --disable-stripping \
 --prefix=../output \
---disable-neon \
 --enable-version3 \
 --disable-shared \
 --enable-static \
@@ -39,7 +63,7 @@ $featureflags \
 --disable-ffplay \
 --disable-ffprobe \
 --disable-ffserver \
---disable-network \
+--enable-network \
 --enable-filter=buffer \
 --enable-filter=buffersink \
 --disable-demuxer=v4l \

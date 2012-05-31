@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE  := videokit
+LOCAL_MODULE  := videokit-armv7a-vfp
 # These need to be in the right order
 FFMPEG_LIBS := $(addprefix ffmpeg/, \
  libavdevice/libavdevice.a \
@@ -19,7 +19,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 
 include $(CLEAR_VARS)
-LOCAL_MODULE  := ffmpeg
+LOCAL_MODULE  := ffmpeg-armv7a-vfp
 FFMPEG_LIBS := $(addprefix ffmpeg/, \
  libavdevice/libavdevice.a \
  libavformat/libavformat.a \
